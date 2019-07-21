@@ -1,0 +1,6 @@
+<div class="progress_container" *ngIf="visible">
+  <div class="progress active">
+      <div class="progress-bar bg-info" role="progressbar" [style.width]="value + '%'" [attr.aria-valuenow]="value" aria-valuemin="0" [attr.aria-valuemax]="barConfig.maxValue"></div>
+  </div>
+  <i class="fa fa-cog fa-spin"></i>
+</div>

@@ -1,0 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="" >
+      <i class="fa fa-home" aria-hidden="true"></i>Home
+      </a>
+    </li>
+    <li [routerLinkActive]="'active'" class="breadcrumb-item" *ngFor="let bc of breadcrumb">
+      <a [routerLink]="[bc.url, bc.params]" skipLocationChange>
+        <i class="{{bc.icon}}" aria-hidden="true"></i>
+        {{bc.label}}
+      </a>
+    </li>
+  </ol>
+</nav>

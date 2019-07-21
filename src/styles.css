@@ -1,0 +1,16 @@
+html {
+  font-size: 0.85em;
+}
+.nav-link.active {
+  border-radius: 5px;
+  background: #8b8b8b;
+  padding: 0;
+}
+
+.navbar-default {
+  padding: 1px;
+}
+
+.navbar {
+  min-height: 56px;
+}
