@@ -1,0 +1,144 @@
+<div [@slideToRight]>
+  <div class="row">
+
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
+      <button class="btn btn-success btn-md border rounded-circle" title="Novo" (click)="prepararNovoProduto()">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="novoProduto" [@slideToRight]>
+      <div class="card text-success border-success">
+        <div class="card-header">
+          <h6><i class="fa fa-list pr-1"></i>Novo Produto</h6>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-sm-6 col-xs-6 col-md-6">
+                <div class="form-group">
+                  <label>Descrição</label>
+                  <input type="text" name="descricao" class="form-control" placeholder="Descrição do Produto" [(ngModel)]="novoProduto.descricao">
+                </div>
+                <div class="form-group">
+                  <label>Material</label>
+                  <input type="text" name="material" class="form-control" placeholder="Material" #descricao="ngModel" [(ngModel)]="novoProduto.material">
+                </div>
+                <div class="form-group">
+                  <label>Categoria</label>
+                  <select name="categoria" class="form-control" [(ngModel)]="novoProduto.categoria">
+                    <option *ngFor="let c of categorias" [(ngValue)]="c._id">{{c.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-6 col-xs-6 col-md-6 align-self-center">
+                <div class="card text-dark">
+                  <div class="card-header">
+                    <h6><i class="fa fa-arrows pr-2" aria-hidden="true"></i>Dimensões</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-4 col-xs-4 col-md-4">
+                        <div class="form-group">
+                          <label>Largura</label>
+                          <div class="input-group">
+                            <input type="number" name="largura" class="form-control" placeholder="Largura" [(ngModel)]="novoProduto.dimensoes.largura">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text rounded-right">cm</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-xs-4 col-md-4">
+                        <div class="form-group">
+                          <label>Comprimento</label>
+                          <div class="input-group">
+                            <input type="number" name="comprimento" class="form-control" placeholder="Comprimento" [(ngModel)]="novoProduto.dimensoes.comprimento">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text rounded-right">cm</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-xs-4 col-md-4">
+                        <div class="form-group">
+                          <label>Altura</label>
+                          <div class="input-group">
+                            <input type="number" name="altura" class="form-control" placeholder="Altura" [(ngModel)]="novoProduto.dimensoes.altura">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text rounded-right">cm</div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-xs-12 col-md-12 pt-2">
+                <div class="form-group">
+                  <button class="btn btn-success mr-2" (click)="salvar(novoProduto)">
+                    <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" (click)="novoProduto = null">
+                    <i class="fa fa-ban mr-2" aria-hidden="true"></i>Fechar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
+      <div class="card border-primary text-primary">
+        <div class="card-header border-primary text-primary">
+          <h6><i class="fa fa-search mr-2" aria-hidden="true"></i>Pesquisa</h6>
+        </div>
+        <div class="card-body">
+          <form #pesquisaForm="ngForm">
+            <div class="row">
+                <div class="col-sm-6 col-xs-6 col-md-6">
+                  <div class="form-group">
+                    <label class="control-label text-left">Serviço</label>
+                    <input type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="filtroPesquisa.descricao">
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-6 col-md-6">
+                  <div class="form-group">
+                    <label for="catPesquisa" class="control-label">Categoria</label>
+                    <select id="catPesquisa" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="filtroPesquisa.idCategoria">
+                      <option [ngValue]="null">[Todas]</option>
+                      <option *ngFor="let c of categorias" [ngValue]="c._id">{{c.descricao}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-12 align-self-center">
+                  <button class="btn btn-primary" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2 pb-2" *ngIf="produtos" [@slideToTop]>
+
+      <div class="card mb-2" *ngFor="let p of produtos">
+        <div class="card-header">
+          <h6><i class="fa fa-list mr-2" aria-hidden="true"></i>{{p.descricao}}</h6>
+        </div>
+        <div class="card-body">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -4,7 +4,8 @@ import { ServicoService } from './servico.service';
 import { Servico } from './../../common/types/servico';
 import { Categoria } from 'src/app/common/types/categoria';
 import { Component, OnInit } from '@angular/core';
-import { slideToBottom, slideToRight } from 'src/app/route-transitions';
+import { slideToBottom, slideToRight, pagination } from 'src/app/route-transitions';
+import { BaseComponent } from 'src/app/common/base.component';
 
 @Component({
   selector: 'app-servico',
@@ -12,7 +13,7 @@ import { slideToBottom, slideToRight } from 'src/app/route-transitions';
   styleUrls: ['./servico.component.css'],
   animations: [slideToBottom(), pagination(), slideToRight()]
 })
-export class ServicoComponent implements OnInit {
+export class ServicoComponent extends BaseComponent implements OnInit {
 
   filtroPesquisa = {
     descricao: null,
@@ -27,13 +28,18 @@ export class ServicoComponent implements OnInit {
 
   constructor(private servicoService: ServicoService,
               private categoriaService: CategoriaService,
-              private toastrService: ToastrService) { }
+              private toastrService: ToastrService) {
+    super();
+  }
 
   ngOnInit() {
     this.categoriaService.list().then(categorias => this.categorias = categorias);
   }
 
   public pesquisar(): void {
+    delete this.servicos;
+    this.resetEdicao();
+
     this.servicoService.listar(this.filtroPesquisa.descricao, this.filtroPesquisa.idCategoria)
         .then(servicos => {
           if (!servicos || servicos.length === 0) {
@@ -45,19 +51,23 @@ export class ServicoComponent implements OnInit {
   }
 
   public prepararNovoServico(): void {
-    this.novoServico = new Servico();
+    if (!this.novoServico) {
+      this.novoServico = new Servico();
+    }
   }
 
   public salvar(servico: Servico): void {
     this.salvarServico(servico, () => {
-      this.filtroPesquisa.descricao = servico.descricao;
       this.filtroPesquisa.idCategoria = servico.categoria;
+      this.resetInclusao();
       this.pesquisar();
     });
   }
 
   public atualizar(servico: Servico): void {
-    this.salvarServico(servico, () => this.pesquisar());
+    this.salvarServico(servico, () => {
+      this.pesquisar();
+    });
   }
 
   public excluir(servico: Servico): void {
@@ -67,15 +77,27 @@ export class ServicoComponent implements OnInit {
   private salvarServico(servico: Servico, callback: () => void): void {
     this.servicoService.salvar(servico).then((response) => {
       this.toastrService.success('Serviço salvo!');
-      this.resetControls();
       callback();
     });
   }
 
-  private resetControls(): void {
+  private resetPesquisa(): void {
     delete this.filtroPesquisa.descricao;
     delete this.filtroPesquisa.idCategoria;
+    delete this.servicos;
+  }
+
+  private resetEdicao(): void {
     delete this.idServicoEdicao;
+  }
+
+  private resetInclusao(): void {
     delete this.novoServico;
+  }
+
+  private resetControls(): void {
+    this.resetPesquisa();
+    this.resetEdicao();
+    this.resetInclusao();
   }
 }

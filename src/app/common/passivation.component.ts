@@ -1,8 +1,11 @@
+import { BaseComponent } from './base.component';
 
-export abstract class PassivationComponent {
+export abstract class PassivationComponent extends BaseComponent {
   data: any;
 
-  constructor(private componentName: string) {}
+  constructor(private componentName: string) {
+    super();
+  }
 
   protected passivate(): void {
     localStorage.setItem(this.componentName, JSON.stringify(this.data));

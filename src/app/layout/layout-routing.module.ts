@@ -1,4 +1,3 @@
-import { Servico } from './../common/types/servico';
 import { LayoutComponent } from './layout.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -13,6 +12,9 @@ const routes: Routes = [
       }, {
         path: 'Servico', loadChildren: () => import('./servico/servico.module').then(s => s.ServicoModule),
         data: {breadcrumb: 'Serviços', icon: 'fa fa-wrench'}
+      }, {
+        path: 'Produto', loadChildren: () => import('./produto/produto.module').then(p => p.ProdutoModule),
+        data: {breadcrumb: 'Produtos', icon: 'fa fa-list'}
       }]
 },
 ];

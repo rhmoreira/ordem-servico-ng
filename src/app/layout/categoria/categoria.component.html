@@ -7,15 +7,15 @@
         <i class="fa fa-plus" aria-hidden="true"></i>
       </button>
 
-      <form #novaCategoriaForm="ngForm">
+      <form #novaCategoriaForm="ngForm" class="form-inline">
         <div class="input-group pb-2" *ngIf="novaCategoria">
-          <input type="text" class="form-control ml-2" [(ngModel)]="novaCategoria.descricao" name="descricao" placeholder="Descrição">
+          <input type="text" class="form-control mr-2" [(ngModel)]="novaCategoria.descricao" name="descricao" placeholder="Descrição">
           <span class="input-group-btn">
-            <button class="btn btn-primary mx-2" title="Salvar" (click)="salvar(novaCategoria)">
-              <i class="fa fa-floppy-o"></i>
+            <button class="btn btn-success mr-2" (click)="salvar(novaCategoria)">
+              <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar
             </button>
-            <button class="btn btn-danger" title="Excluir" (click)="novaCategoria = null">
-              <i class="fa fa-times"></i>
+            <button type="button" class="btn btn-outline-secondary"  (click)="novaCategoria = null">
+              <i class="fa fa-ban mr-2" aria-hidden="true"></i>Fechar
             </button>
           </span>
         </div>
@@ -28,7 +28,7 @@
       <form #categoriaForm="ngForm">
         <ul class="list-group">
           <li class="list-group-item list-group-item-primary font-weight-bold">
-            Categorias
+            <i class="fa fa-folder-open-o mr-1"></i>Categorias
           </li>
           <li [@pagination]="paging.navDirection" class="list-group-item list-group-item-light" *ngFor="let c of categorias | slice: (paging.page-1) * paging.pageSize : (paging.page-1) * paging.pageSize + paging.pageSize">
             <div *ngIf="c._id !== idCategoriaEdicao">

@@ -55,7 +55,7 @@ export function slideToLeft() {
 }
 
 export function slideToBottom() {
-    return trigger('routerTransition', [
+    return trigger('slideToBottom', [
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
@@ -64,13 +64,13 @@ export function slideToBottom() {
         ]),
         transition(':leave', [
             style({ transform: 'translateY(0%)' }),
-            animate('0.5s ease-in-out', style({ transform: 'translateY(100%)' }))
+            animate('0.5s ease-in-out', style({ transform: 'translateY(-100%)' }))
         ])
     ]);
 }
 
 export function slideToTop() {
-    return trigger('routerTransition', [
+    return trigger('slideToTop', [
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
@@ -79,7 +79,7 @@ export function slideToTop() {
         ]),
         transition(':leave', [
             style({ transform: 'translateY(0%)' }),
-            animate('0.5s ease-in-out', style({ transform: 'translateY(-100%)' }))
+            animate('0.5s ease-in-out', style({ transform: 'translateY(100%)' }))
         ])
     ]);
 }

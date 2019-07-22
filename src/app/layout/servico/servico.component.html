@@ -4,63 +4,77 @@
     <div class="col-sm-12 col-xs-12 col-md-12">
       <div class="row">
 
-        <div class="col-sm-12 col-xs-12 col-md-12">
+        <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
           <button class="btn btn-success btn-md border rounded-circle" (click)="prepararNovoServico()" title="Novo">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </div>
 
-        <div class="col col-auto pb-2" *ngIf="novoServico" [@slideToRight]>
-          <div class="card border-success">
-            <div class="card-header  border-success text-success">
-              <h6>Novo servico</h6>
+        <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="novoServico" [@slideToRight]>
+          <div class="card border-success text-success">
+            <div class="card-header border-success">
+              <h6><i class="fa fa-wrench pr-1"></i>Novo servico</h6>
             </div>
-            <div class="card-body text-success">
+            <div class="card-body">
               <form #novoServicoForm="ngForm">
                 <div class="row">
-                  <div class="col-sm-auto col-xs-auto col-md-auto pb-2">
+                  <div class="col-sm-6 col-xs-6 col-md-6">
                     <div class="form-group">
                       <label for="descNovoServico" class="control-label text-left">Serviço</label>
                       <input id="descNovoServico" type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="novoServico.descricao">
                     </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-6 col-md-6">
                     <div class="form-group">
                       <label for="catNovoServico" class="control-label">Categoria</label>
                       <select id="catNovoServico" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="novoServico.categoria">
-                        <option *ngFor="let c of categorias" [ngValue]="c._id">{{c.descricao}}</option>
+                        <option *ngFor="let c of categorias" [(ngValue)]="c._id">{{c.descricao}}</option>
                       </select>
                     </div>
                   </div>
-                  <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
-                    <button class="btn btn-success mr-2" (click)="salvar(novoServico)"><i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar</button>
-                    <button type="button" class="btn btn-outline-secondary" (click)="novoServico = null"><i class="fa fa-ban mr-2" aria-hidden="true"></i>Fechar</button>
-                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
+                      <button class="btn btn-success mr-2" (click)="salvar(novoServico)">
+                        <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary" (click)="novoServico = null">
+                        <i class="fa fa-ban mr-2" aria-hidden="true"></i>Fechar
+                      </button>
+                    </div>
                 </div>
               </form>
             </div>
           </div>
         </div>
 
-        <div class="col col-auto">
-          <div class="card pb-2">
-            <div class="card-header ">
-              <h6>Pesquisa</h6>
+        <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
+          <div class="card border-primary text-primary">
+            <div class="card-header border-primary text-primary">
+              <h6><i class="fa fa-search mr-2" aria-hidden="true"></i>Pesquisa</h6>
             </div>
             <div class="card-body">
               <form #pesquisaForm="ngForm">
                <div class="row">
-                  <div class="col-sm-auto col-xs-auto col-md-auto">
-                    <label for="descPesquisa" class="control-label text-left">Serviço</label>
-                    <input id="descPesquisa" type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="filtroPesquisa.descricao">
+                  <div class="col-sm-6 col-xs-6 col-md-6">
+                    <div class="form-group">
+                      <label for="descPesquisa" class="control-label text-left">Serviço</label>
+                      <input id="descPesquisa" type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="filtroPesquisa.descricao">
+                    </div>
                   </div>
-                  <div class="col-sm-auto col-xs-auto col-md-auto">
-                    <label for="catPesquisa" class="control-label">Categoria</label>
-                    <select id="catPesquisa" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="filtroPesquisa.idCategoria">
-                      <option [ngValue]="null">[Todas]</option>
-                      <option *ngFor="let c of categorias" [ngValue]="c._id">{{c.descricao}}</option>
-                    </select>
+                  <div class="col-sm-6 col-xs-6 col-md-6">
+                    <div class="form-group">
+                      <label for="catPesquisa" class="control-label">Categoria</label>
+                      <select id="catPesquisa" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="filtroPesquisa.idCategoria">
+                        <option [ngValue]="null">[Todas]</option>
+                        <option *ngFor="let c of categorias" [ngValue]="c._id">{{c.descricao}}</option>
+                      </select>
+                    </div>
                   </div>
-                  <div class="col-sm-auto col-xs-auto col-md-auto align-self-end pt-2">
-                    <button class="btn btn-primary" (click)="pesquisar()"><i class="fa fa-search mr-2" aria-hidden="true"></i>Buscar</button>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 col-xs-12 col-md-12 align-self-center">
+                    <button class="btn btn-primary" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
                   </div>
                 </div>
               </form>
@@ -68,38 +82,59 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-xs-12 col-md-12 pt-2" *ngIf="servicos">
+        <div class="col-sm-12 col-xs-12 col-md-12 pb-2 pb-2" *ngIf="servicos">
           <div>
             <div class="list-group">
               <div class="list-group-item list-group-item-primary font-weight-bold" >
-                Serviços
+                <i class="fa fa-wrench pr-1"></i>Serviços
               </div>
               <div class="list-group-item" *ngFor="let s of servicos" [@pagination]="'navLeft'">
                 <div *ngIf="s._id !== idServicoEdicao">
-                  <div class="input-group">
-                    <span class="input-group-btn">
-                      <button class="btn btn-danger mr-2" title="Excluir" (click)="excluir(s)">
+                  <div class="row">
+                    <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
+                      <button class="btn btn-danger mr-1 mb-1" title="Excluir" (click)="excluir(s)">
                         <i class="fa fa-times"></i>
                       </button>
-                      <button class="btn btn-info mr-2" title="Editar" (click)="idServicoEdicao = s._id">
+                      <button class="btn btn-info mr-1 mb-1" title="Editar" (click)="idServicoEdicao = s._id">
                         <i class="fa fa-pencil"></i>
                       </button>
-                    </span>
-                    {{s.descricao}}
+                    </div>
+                    <div class="col-sm-5 col-xs-5 col-md-5 align-self-center">
+                      <h4 class="float-none">
+                        <span class="badge badge-light">
+                          <i class="fa fa-wrench pr-1"></i>{{s.descricao}}
+                        </span>
+                      </h4>
+                    </div>
+                    <div class="col-sm-5 col-xs-5 col-md-5 align-self-center">
+                      <h5 class="float-none">
+                        <span class="badge badge-dark">
+                          <i class="fa fa-folder-open-o pr-1"></i>{{s.categoria.descricao}}
+                        </span>
+                      </h5>
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="s._id === idServicoEdicao" class="input-group">
-                  <form class="form-inline">
-                    <span class="input-group-btn m-2">
-                      <button class="btn btn-primary" title="Salvar" (click)="atualizar(s)">
-                        <i class="fa fa-floppy-o"></i>
-                      </button>
-                    </span>
 
-                    <input name="descricao" [(ngModel)]="s.descricao" class="form-control editing m-2" #descricao="ngModel" (keyup.enter)="atualizar(s)">
-                    <select name="categoria" class="form-control m-2" #categoria="ngModel" [(ngModel)]="s.categoria">
-                      <option *ngFor="let c of categorias" [ngValue]="c._id">{{c.descricao}}</option>
-                    </select>
+                </div>
+                <div *ngIf="s._id === idServicoEdicao">
+                  <form>
+                    <div class="row">
+                      <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
+                        <button class="btn btn-primary" title="Salvar" (click)="atualizar(s)">
+                          <i class="fa fa-floppy-o"></i>
+                        </button>
+                      </div>
+                      <div class="col-sm-5 col-xs-5 col-md-5 align-self-center">
+                        <i class="fa fa-wrench"></i>
+                        <input name="descricao" [(ngModel)]="s.descricao" class="form-control editing" #descricao="ngModel" (keyup.enter)="atualizar(s)">
+                      </div>
+                      <div class="col-sm-5 col-xs-5 col-md-5 align-self-center">
+                        <i class="fa fa-folder-open"></i>
+                        <select name="categoria" class="form-control editing" #categoria="ngModel" [(ngModel)]="s.categoria" [compareWith]="compareEntities">
+                          <option *ngFor="let c of categorias" [ngValue]="c">{{c.descricao}}</option>
+                        </select>
+                      </div>
+                    </div>
                   </form>
                 </div>
               </div>

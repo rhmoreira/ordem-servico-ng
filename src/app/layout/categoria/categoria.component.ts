@@ -59,7 +59,9 @@ export class CategoriaComponent implements OnInit {
     this.categoriaService
         .excluir(idCategoria, idCategoriaSub)
         .then((res) => {
-          this.toastrService.success('Categoria excluida com sucesso.');
+          res.resultado.forEach(msg => {
+            this.toastrService.success(msg);
+          });
           this.resetControls();
           this.ngOnInit();
         }).catch(error => {
