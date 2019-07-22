@@ -4,7 +4,7 @@ import { CategoriaComponent } from './categoria.component';
 
 
 const routes: Routes = [{
-  path: '', component: CategoriaComponent
+  path: '', component: CategoriaComponent, data: {breadcrumbIgnore: true}
 }];
 
 @NgModule({

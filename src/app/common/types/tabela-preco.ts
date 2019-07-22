@@ -1,5 +1,4 @@
 import { Model } from './model';
-import { Tipo } from './tipo';
 import { Categoria } from './categoria';
 import { Servico } from './servico';
 import { Produto } from './produto';

@@ -25,7 +25,7 @@ export function pagination() {
 }
 
 export function slideToRight() {
-    return trigger('routerTransition', [
+    return trigger('slideToRight', [
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
@@ -34,13 +34,13 @@ export function slideToRight() {
         ]),
         transition(':leave', [
             style({ transform: 'translateX(0%)' }),
-            animate('0.5s ease-in-out', style({ transform: 'translateX(100%)' }))
+            animate('0.5s ease-in-out', style({ transform: 'translateX(-100%)' }))
         ])
     ]);
 }
 
 export function slideToLeft() {
-    return trigger('routerTransition', [
+    return trigger('slideToLeft', [
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
@@ -49,7 +49,7 @@ export function slideToLeft() {
         ]),
         transition(':leave', [
             style({ transform: 'translateX(0%)' }),
-            animate('0.5s ease-in-out', style({ transform: 'translateX(-100%)' }))
+            animate('0.5s ease-in-out', style({ transform: 'translateX(100%)' }))
         ])
     ]);
 }

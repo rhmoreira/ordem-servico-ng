@@ -1,7 +1,8 @@
+import { Paging, handlePageChange } from './../../common/util/pagination-animation';
 import { CategoriaService } from './categoria.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { slideToBottom } from 'src/app/route-transitions';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { slideToBottom, pagination, slideToLeft, slideToRight } from 'src/app/route-transitions';
 import { ToastrService } from 'ngx-toastr';
 import { Categoria } from 'src/app/common/types/categoria';
 
@@ -9,11 +10,11 @@ import { Categoria } from 'src/app/common/types/categoria';
   selector: 'app-categoria',
   templateUrl: './categoria.component.html',
   styleUrls: ['./categoria.component.css'],
-  animations: [slideToBottom()]
+  animations: [slideToRight(), pagination()]
 })
 export class CategoriaComponent implements OnInit {
 
-  categorias: Categoria[];
+  categorias: Categoria[] = [];
   novaCategoria: Categoria;
 
   idCategoriaEdicao: string;
@@ -21,7 +22,9 @@ export class CategoriaComponent implements OnInit {
   idCategoriaSubstituta: string;
   substituir = false;
 
-  constructor(private route: ActivatedRoute, private toastrService: ToastrService, private categoriaService: CategoriaService) { }
+  paging = new Paging('navRight');
+
+  constructor(private toastrService: ToastrService, private categoriaService: CategoriaService) { }
 
   ngOnInit() {
     this.categoriaService.list().then(categorias => this.categorias = categorias);
@@ -61,18 +64,23 @@ export class CategoriaComponent implements OnInit {
           this.ngOnInit();
         }).catch(error => {
           if (error.erro === 'Categoria em uso') {
-            this.toastrService.warning('Selecione uma categoria substituta para confirmar a exclusão', null, {positionClass: 'toast-top-center'});
+            this.toastrService.warning('Selecione uma categoria substituta para confirmar a exclusão', error.erro, {timeOut: 10000});
             this.substituir = true;
             this.idCategoriaExclusao = idCategoria;
           }
         });
   }
 
+  @HostListener('document:keyup.escape')
   private resetControls(): void {
     delete this.novaCategoria;
     delete this.idCategoriaEdicao;
     delete this.idCategoriaExclusao;
     this.substituir = false;
+  }
+
+  public pageChange(page: number): void {
+    handlePageChange(page, this.paging);
   }
 
 }

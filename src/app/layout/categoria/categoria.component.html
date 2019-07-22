@@ -1,69 +1,88 @@
-<div [@routerTransition] class="row justify-content-md-center">
+<div [@slideToRight]>
 
-  <div class="col-sm-6 col-xs-6 col-md-6">
-    <button class="btn btn-success btn-md border rounded-circle" (click)="prepararNovaCategoria()">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-    </button>
+  <div class="row justify-content-md-center">
 
-    <form #novaCategoriaForm="ngForm">
-      <div class="input-group pb-2" *ngIf="novaCategoria">
-        <input type="text" class="form-control ml-2" [(ngModel)]="novaCategoria.descricao" name="descricao" placeholder="Digite a descrição da nova categoria">
-        <span class="input-group-btn">
-          <button class="btn btn-primary mx-2" title="Salvar" (click)="salvar(novaCategoria)">
-            <i class="fa fa-floppy-o"></i>
-          </button>
-          <button class="btn btn-danger" title="Excluir" (click)="novaCategoria = null">
-            <i class="fa fa-times"></i>
-          </button>
-        </span>
-      </div>
-    </form>
+    <div class="col-sm-12 col-xs-12 col-md-12">
+      <button class="btn btn-success btn-md border rounded-circle" (click)="prepararNovaCategoria()" title="Nova categoria">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
 
-    <form #categoriaForm="ngForm">
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-secondary text-center">
-          Categorias
-          <div class="input-group">
-            <input name="descricao" class="text-center form-control form-control-md" placeholder="Filtrar">
-          </div>
-        </li>
-        <li class="list-group-item list-group-item-light" *ngFor="let c of categorias">
-          <div *ngIf="c._id !== idCategoriaEdicao">
-            <div class="input-group">
-              <span class="input-group-btn">
-                <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirCategoria(c)" *ngIf="!substituir || idCategoriaExclusao !== c._id">
+      <form #novaCategoriaForm="ngForm">
+        <div class="input-group pb-2" *ngIf="novaCategoria">
+          <input type="text" class="form-control ml-2" [(ngModel)]="novaCategoria.descricao" name="descricao" placeholder="Descrição">
+          <span class="input-group-btn">
+            <button class="btn btn-primary mx-2" title="Salvar" (click)="salvar(novaCategoria)">
+              <i class="fa fa-floppy-o"></i>
+            </button>
+            <button class="btn btn-danger" title="Excluir" (click)="novaCategoria = null">
+              <i class="fa fa-times"></i>
+            </button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-md-center">
+    <div class="col-sm-12 col-xs-12 col-md-12">
+      <form #categoriaForm="ngForm">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-primary font-weight-bold">
+            Categorias
+          </li>
+          <li [@pagination]="paging.navDirection" class="list-group-item list-group-item-light" *ngFor="let c of categorias | slice: (paging.page-1) * paging.pageSize : (paging.page-1) * paging.pageSize + paging.pageSize">
+            <div *ngIf="c._id !== idCategoriaEdicao">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirCategoria(c)" *ngIf="!substituir || idCategoriaExclusao !== c._id">
+                    <i class="fa fa-times"></i>
+                  </button>
+                  <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirComSubstituto(c)" *ngIf="substituir && idCategoriaExclusao === c._id" [disabled]="!idCategoriaSubstituta">
+                    <i class="fa fa-times"></i>
+                  </button>
+                  <button class="btn btn-info mr-2" title="Editar" (click)="idCategoriaEdicao = c._id">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </span>
+                <span class="align-middle pl-2" *ngIf="!substituir || idCategoriaExclusao !== c._id">{{c.descricao}}</span>
+
+                <select class="form-control form-control-md editing" name="idCategoriaSubstituta" [(ngModel)]="idCategoriaSubstituta" *ngIf="substituir && idCategoriaExclusao === c._id" aria-placeholder="[Selecione...]">
+                  <option *ngFor="let cSub of categorias" [disabled]="cSub._id === c._id" [ngValue]="cSub._id">{{cSub.descricao}}</option>
+                </select>
+              </div>
+
+            </div>
+            <div *ngIf="c._id === idCategoriaEdicao" class="input-group">
+              <span class="input-group-btn pr-2">
+                <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirCategoria(c)">
                   <i class="fa fa-times"></i>
                 </button>
-                <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirComSubstituto(c)" *ngIf="substituir && idCategoriaExclusao === c._id" [disabled]="!idCategoriaSubstituta">
-                  <i class="fa fa-times"></i>
-                </button>
-                <button class="btn btn-info mr-2" title="Editar" (click)="idCategoriaEdicao = c._id">
-                  <i class="fa fa-pencil"></i>
+                <button class="btn btn-primary" title="Salvar" (click)="salvar(c)">
+                  <i class="fa fa-floppy-o"></i>
                 </button>
               </span>
-              <span class="align-middle pl-2" *ngIf="!substituir || idCategoriaExclusao !== c._id">{{c.descricao}}</span>
 
-              <select class="form-control form-control-md editing" name="idCategoriaSubstituta" [(ngModel)]="idCategoriaSubstituta" *ngIf="substituir && idCategoriaExclusao === c._id">
-                <option [selected]="true">[Selecione...]</option>
-                <option *ngFor="let cSub of categorias" [disabled]="cSub._id === c._id" [(ngValue)]="cSub._id">{{cSub.descricao}}</option>
-              </select>
+              <input name="descricao" [(ngModel)]="c.descricao" class="form-control form-control-md editing" #descricao="ngModel" (keyup.enter)="salvar(c)">
             </div>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
 
-          </div>
-          <div *ngIf="c._id === idCategoriaEdicao" class="input-group">
-            <span class="input-group-btn pr-2">
-              <button class="btn btn-danger mr-2" title="Excluir" (click)="excluir(c)">
-                <i class="fa fa-times"></i>
-              </button>
-              <button class="btn btn-primary" title="Salvar" (click)="salvar(c)">
-                <i class="fa fa-floppy-o"></i>
-              </button>
-            </span>
-
-            <input name="descricao" [(ngModel)]="c.descricao" class="form-control form-control-md editing" #descricao="ngModel" (keyup.enter)="salvar(c)">
-          </div>
-        </li>
-      </ul>
-    </form>
+  <div class="row justify-content-md-center pt-2">
+    <div class="col col-auto">
+      <ngb-pagination
+        [(page)]="paging.page"
+        [pageSize]="paging.pageSize"
+        [collectionSize]="categorias.length"
+        (pageChange)="pageChange($event)"></ngb-pagination>
+    </div>
+    <div class="col col-auto">
+      <select class="custom-select" style="width: auto" [(ngModel)]="paging.pageSize" [ngModelOptions]="{standalone: true}">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+      </select>
+    </div>
   </div>
 </div>

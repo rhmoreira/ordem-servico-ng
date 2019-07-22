@@ -5,6 +5,7 @@ import { CategoriaRoutingModule } from './categoria-routing.module';
 import { CategoriaComponent } from './categoria.component';
 import { CategoriaService } from './categoria.service';
 import { FormsModule } from '@angular/forms';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    CategoriaRoutingModule
+    CategoriaRoutingModule,
+    NgbPaginationModule
   ],
   providers: [CategoriaService]
 })
