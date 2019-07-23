@@ -6,6 +6,20 @@ import { Produto } from './../../common/types/produto';
 import { Component, OnInit } from '@angular/core';
 import { slideToRight, slideToTop } from 'src/app/route-transitions';
 import { ToastrService } from 'ngx-toastr';
+import { PassivationComponent } from 'src/app/common/passivation.component';
+
+export interface ProdutoData {
+  novoProduto: Produto;
+  produtos: Produto[];
+  idProdutoEdicao: string;
+
+  filtroPesquisa: {
+    descricao: string;
+    idCategoria: string;
+  },
+
+  categorias: Categoria[];
+}
 
 @Component({
   selector: 'app-produto',
@@ -13,49 +27,58 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./produto.component.css'],
   animations: [slideToRight(), slideToTop()]
 })
-export class ProdutoComponent extends BaseComponent implements OnInit {
-
-  novoProduto: Produto;
-  produtos: Produto[];
-
-  filtroPesquisa = {
-    descricao: null,
-    idCategoria: null
-  };
-
-  categorias: Categoria[];
+export class ProdutoComponent extends PassivationComponent<ProdutoData> implements OnInit {
 
   constructor(private produtoService: ProdutoService,
               private categoriaService: CategoriaService,
               private toastrService: ToastrService) {
-    super();
+    super('produtos-comp');
+
+    this.initializeData();
+   }
+
+   private initializeData(): void {
+     super.data = {
+      novoProduto: null,
+      produtos: null,
+      idProdutoEdicao: null,
+
+      filtroPesquisa: {
+        descricao: null,
+        idCategoria: null
+      },
+
+      categorias: null
+    };
    }
 
   ngOnInit() {
-    this.categoriaService.list().then(categorias => this.categorias = categorias);
+    super.activate(true);
+    this.categoriaService.list().then(categorias => this.data.categorias = categorias);
   }
 
   public pesquisar(): void {
-    delete this.produtos;
-    this.produtoService.listar(this.filtroPesquisa.descricao, this.filtroPesquisa.idCategoria)
+    delete this.data.produtos;
+    this.resetEdicao();
+    this.produtoService.listar(this.data.filtroPesquisa.descricao, this.data.filtroPesquisa.idCategoria)
         .then(produtos => {
           if (produtos.length === 0) {
             this.toastrService.info('Nenhum produto encontrado');
           } else {
-            this.produtos = produtos;
+            this.data.produtos = produtos;
           }
         });
   }
 
   public prepararNovoProduto(): void {
-    if (!this.novoProduto) {
-      this.novoProduto = new Produto();
+    if (!this.data.novoProduto) {
+      this.data.novoProduto = new Produto();
     }
   }
 
   public salvar(produto: Produto): void {
     this.salvarServico(produto, () => {
-      this.filtroPesquisa.idCategoria = produto.categoria;
+      this.data.filtroPesquisa.idCategoria = <string><any> produto.categoria;
       this.resetInclusao();
       this.pesquisar();
     });
@@ -79,13 +102,17 @@ export class ProdutoComponent extends BaseComponent implements OnInit {
   }
 
   private resetPesquisa(): void {
-    delete this.filtroPesquisa.descricao;
-    delete this.filtroPesquisa.idCategoria;
-    delete this.produtos;
+    delete this.data.filtroPesquisa.descricao;
+    delete this.data.filtroPesquisa.idCategoria;
+    delete this.data.produtos;
   }
 
   private resetInclusao(): void {
-    delete this.novoProduto;
+    delete this.data.novoProduto;
+  }
+
+  private resetEdicao(): void {
+    delete this.data.idProdutoEdicao;
   }
 
   private resetControls(): void {

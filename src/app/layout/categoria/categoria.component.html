@@ -30,39 +30,36 @@
           <li class="list-group-item list-group-item-primary font-weight-bold">
             <i class="fa fa-folder-open-o mr-1"></i>Categorias
           </li>
-          <li [@pagination]="paging.navDirection" class="list-group-item list-group-item-light" *ngFor="let c of categorias | slice: (paging.page-1) * paging.pageSize : (paging.page-1) * paging.pageSize + paging.pageSize">
-            <div *ngIf="c._id !== idCategoriaEdicao">
+          <li [@pagination]="paging.navDirection" class="list-group-item list-group-item-light" *ngFor="let cat of categorias | slice: (paging.page-1) * paging.pageSize : (paging.page-1) * paging.pageSize + paging.pageSize">
+            <div *ngIf="cat._id !== idCategoriaEdicao">
               <div class="input-group">
                 <span class="input-group-btn">
-                  <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirCategoria(c)" *ngIf="!substituir || idCategoriaExclusao !== c._id">
+                  <button class="btn btn-outline-danger mr-2" title="Excluir" (click)="excluirCategoria(cat)" *ngIf="!substituir || idCategoriaExclusao !== cat._id">
                     <i class="fa fa-times"></i>
                   </button>
-                  <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirComSubstituto(c)" *ngIf="substituir && idCategoriaExclusao === c._id" [disabled]="!idCategoriaSubstituta">
+                  <button class="btn btn-outline-danger mr-2" title="Excluir" (click)="excluirComSubstituto(cat)" *ngIf="substituir && idCategoriaExclusao === cat._id" [disabled]="!idCategoriaSubstituta">
                     <i class="fa fa-times"></i>
                   </button>
-                  <button class="btn btn-info mr-2" title="Editar" (click)="idCategoriaEdicao = c._id">
+                  <button class="btn btn-outline-info mr-2" title="Editar" (click)="idCategoriaEdicao = cat._id">
                     <i class="fa fa-pencil"></i>
                   </button>
                 </span>
-                <span class="align-middle pl-2" *ngIf="!substituir || idCategoriaExclusao !== c._id">{{c.descricao}}</span>
+                <span class="align-middle pl-2" *ngIf="!substituir || idCategoriaExclusao !== cat._id">{{cat.descricao}}</span>
 
-                <select class="form-control form-control-md editing" name="idCategoriaSubstituta" [(ngModel)]="idCategoriaSubstituta" *ngIf="substituir && idCategoriaExclusao === c._id" aria-placeholder="[Selecione...]">
-                  <option *ngFor="let cSub of categorias" [disabled]="cSub._id === c._id" [ngValue]="cSub._id">{{cSub.descricao}}</option>
+                <select class="form-control form-control-md editing" name="idCategoriaSubstituta" [(ngModel)]="idCategoriaSubstituta" *ngIf="substituir && idCategoriaExclusao === cat._id" aria-placeholder="[Selecione...]">
+                  <option *ngFor="let cSub of categorias" [disabled]="cSub._id === cat._id" [ngValue]="cSub._id">{{cSub.descricao}}</option>
                 </select>
               </div>
 
             </div>
-            <div *ngIf="c._id === idCategoriaEdicao" class="input-group">
+            <div *ngIf="cat._id === idCategoriaEdicao" class="input-group">
               <span class="input-group-btn pr-2">
-                <button class="btn btn-danger mr-2" title="Excluir" (click)="excluirCategoria(c)">
-                  <i class="fa fa-times"></i>
-                </button>
-                <button class="btn btn-primary" title="Salvar" (click)="salvar(c)">
+                <button class="btn btn-outline-primary" title="Salvar" (click)="salvar(cat)">
                   <i class="fa fa-floppy-o"></i>
                 </button>
               </span>
 
-              <input name="descricao" [(ngModel)]="c.descricao" class="form-control form-control-md editing" #descricao="ngModel" (keyup.enter)="salvar(c)">
+              <input name="descricao" [(ngModel)]="cat.descricao" class="form-control form-control-md editing" #descricao="ngModel" (keyup.enter)="salvar(cat)">
             </div>
           </li>
         </ul>
@@ -71,14 +68,14 @@
   </div>
 
   <div class="row justify-content-md-center pt-2">
-    <div class="col col-auto">
+    <div class="col-auto">
       <ngb-pagination
         [(page)]="paging.page"
         [pageSize]="paging.pageSize"
         [collectionSize]="categorias.length"
         (pageChange)="pageChange($event)"></ngb-pagination>
     </div>
-    <div class="col col-auto">
+    <div class="col-auto">
       <select class="custom-select" style="width: auto" [(ngModel)]="paging.pageSize" [ngModelOptions]="{standalone: true}">
         <option [ngValue]="5">5</option>
         <option [ngValue]="10">10</option>

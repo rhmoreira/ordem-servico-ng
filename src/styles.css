@@ -15,6 +15,10 @@ html {
   min-height: 56px;
 }
 
+.editing {
+  background-color: lightgoldenrodyellow !important;
+}
+
 ::-webkit-input-placeholder {
   font-style: italic;
 }

@@ -1,7 +1,7 @@
 import { BaseComponent } from './base.component';
 
-export abstract class PassivationComponent extends BaseComponent {
-  data: any;
+export abstract class PassivationComponent<T> extends BaseComponent {
+  data: T;
 
   constructor(private componentName: string) {
     super();
@@ -11,7 +11,7 @@ export abstract class PassivationComponent extends BaseComponent {
     localStorage.setItem(this.componentName, JSON.stringify(this.data));
   }
 
-  protected setData(data: any): void {
+  protected setData(data: T): void {
     this.data = data;
   }
 

@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="novoProduto" [@slideToRight]>
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="data.novoProduto" [@slideToRight]>
       <div class="card text-success border-success">
         <div class="card-header">
           <h6><i class="fa fa-list pr-1"></i>Novo Produto</h6>
@@ -18,16 +18,16 @@
               <div class="col-sm-6 col-xs-6 col-md-6">
                 <div class="form-group">
                   <label>Descrição</label>
-                  <input type="text" name="descricao" class="form-control" placeholder="Descrição do Produto" [(ngModel)]="novoProduto.descricao">
+                  <input type="text" name="descricao" class="form-control" placeholder="Descrição do Produto" [(ngModel)]="data.novoProduto.descricao">
                 </div>
                 <div class="form-group">
                   <label>Material</label>
-                  <input type="text" name="material" class="form-control" placeholder="Material" #descricao="ngModel" [(ngModel)]="novoProduto.material">
+                  <input type="text" name="material" class="form-control" placeholder="Material" #descricao="ngModel" [(ngModel)]="data.novoProduto.material">
                 </div>
                 <div class="form-group">
                   <label>Categoria</label>
-                  <select name="categoria" class="form-control" [(ngModel)]="novoProduto.categoria">
-                    <option *ngFor="let c of categorias" [(ngValue)]="c._id">{{c.descricao}}</option>
+                  <select name="categoria" class="form-control" [(ngModel)]="data.novoProduto.categoria">
+                    <option *ngFor="let c of data.categorias" [(ngValue)]="c._id">{{c.descricao}}</option>
                   </select>
                 </div>
               </div>
@@ -35,7 +35,7 @@
               <div class="col-sm-6 col-xs-6 col-md-6 align-self-center">
                 <div class="card text-dark">
                   <div class="card-header">
-                    <h6><i class="fa fa-arrows pr-2" aria-hidden="true"></i>Dimensões</h6>
+                    <h6><img src="../../../assets/images/dimensoes.png" height="20" width="20">Dimensões</h6>
                   </div>
                   <div class="card-body">
                     <div class="row">
@@ -43,7 +43,7 @@
                         <div class="form-group">
                           <label>Largura</label>
                           <div class="input-group">
-                            <input type="number" name="largura" class="form-control" placeholder="Largura" [(ngModel)]="novoProduto.dimensoes.largura">
+                            <input type="number" name="largura" class="form-control" placeholder="Largura" [(ngModel)]="data.novoProduto.dimensoes.largura">
                             <div class="input-group-prepend">
                               <div class="input-group-text rounded-right">cm</div>
                             </div>
@@ -54,7 +54,7 @@
                         <div class="form-group">
                           <label>Comprimento</label>
                           <div class="input-group">
-                            <input type="number" name="comprimento" class="form-control" placeholder="Comprimento" [(ngModel)]="novoProduto.dimensoes.comprimento">
+                            <input type="number" name="comprimento" class="form-control" placeholder="Comprimento" [(ngModel)]="data.novoProduto.dimensoes.comprimento">
                             <div class="input-group-prepend">
                               <div class="input-group-text rounded-right">cm</div>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                           <label>Altura</label>
                           <div class="input-group">
-                            <input type="number" name="altura" class="form-control" placeholder="Altura" [(ngModel)]="novoProduto.dimensoes.altura">
+                            <input type="number" name="altura" class="form-control" placeholder="Altura" [(ngModel)]="data.novoProduto.dimensoes.altura">
                             <div class="input-group-prepend">
                               <div class="input-group-text rounded-right">cm</div>
                             </div>
@@ -80,10 +80,10 @@
 
               <div class="col-sm-12 col-xs-12 col-md-12 pt-2">
                 <div class="form-group">
-                  <button class="btn btn-success mr-2" (click)="salvar(novoProduto)">
+                  <button class="btn btn-success mr-2" (click)="salvar(data.novoProduto)">
                     <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar
                   </button>
-                  <button type="button" class="btn btn-outline-secondary" (click)="novoProduto = null">
+                  <button type="button" class="btn btn-outline-secondary" (click)="data.novoProduto = null">
                     <i class="fa fa-ban mr-2" aria-hidden="true"></i>Fechar
                   </button>
                 </div>
@@ -95,32 +95,35 @@
     </div>
 
     <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
-      <div class="card border-primary text-primary">
-        <div class="card-header border-primary text-primary">
-          <h6><i class="fa fa-search mr-2" aria-hidden="true"></i>Pesquisa</h6>
+      <div class="card">
+        <div class="card-header p-1">
+          <h6 class="float-left w-25 m-2"><i class="fa fa-search pr-2" aria-hidden="true"></i>Pesquisa de Produtos</h6>
+          <button class="btn float-right" type="button" data-toggle="collapse" data-target="#pesquisaCollapse" aria-expanded="false" aria-controls="pesquisaCollapse">
+            <i class="fa fa-expand" aria-hidden="true"></i>
+          </button>
         </div>
-        <div class="card-body">
+        <div class="card-body collapse show" id="pesquisaCollapse">
           <form #pesquisaForm="ngForm">
             <div class="row">
                 <div class="col-sm-6 col-xs-6 col-md-6">
                   <div class="form-group">
                     <label class="control-label text-left">Serviço</label>
-                    <input type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="filtroPesquisa.descricao">
+                    <input type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="data.filtroPesquisa.descricao">
                   </div>
                 </div>
                 <div class="col-sm-6 col-xs-6 col-md-6">
                   <div class="form-group">
                     <label for="catPesquisa" class="control-label">Categoria</label>
-                    <select id="catPesquisa" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="filtroPesquisa.idCategoria">
+                    <select id="catPesquisa" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="data.filtroPesquisa.idCategoria">
                       <option [ngValue]="null">[Todas]</option>
-                      <option *ngFor="let c of categorias" [ngValue]="c._id">{{c.descricao}}</option>
+                      <option *ngFor="let c of data.categorias" [ngValue]="c._id">{{c.descricao}}</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12 col-xs-12 col-md-12 align-self-center">
-                  <button class="btn btn-primary" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
+                  <button class="btn btn-light" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
                 </div>
               </div>
             </form>
@@ -128,16 +131,120 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-xs-12 col-md-12 pb-2 pb-2" *ngIf="produtos" [@slideToTop]>
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="data.produtos" [@slideToTop]>
 
-      <div class="card mb-2" *ngFor="let p of produtos">
-        <div class="card-header">
-          <h6><i class="fa fa-list mr-2" aria-hidden="true"></i>{{p.descricao}}</h6>
-        </div>
-        <div class="card-body">
-        </div>
-      </div>
+      <form>
+        <div class="card mb-2" *ngFor="let p of data.produtos">
+          <div class="card-header produto-bg-primary">
+            <h6 *ngIf="p._id !== data.idProdutoEdicao">
+              <i class="fa fa-list mr-2" aria-hidden="true"></i>{{p.descricao}}
+            </h6>
+            <span *ngIf="p._id === data.idProdutoEdicao">
+              <input type="text" name="descricao" class="form-control editing" placeholder="Descrição do Produto" [(ngModel)]="p.descricao">
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-auto col-xs-auto col-md-auto">
+                <dl>
+                  <dt>Categoria</dt>
+                  <dd *ngIf="p._id !== data.idProdutoEdicao">
+                    <h5>
+                      <span class="badge badge-primary">
+                        <i class="fa fa-folder-open-o pr-1"></i>{{p.categoria.descricao}}
+                      </span>
+                    </h5>
+                  </dd>
+                  <dd *ngIf="p._id === data.idProdutoEdicao">
+                    <select name="categoria" class="form-control editing" [(ngModel)]="p.categoria" [compareWith]="compareEntities">
+                      <option *ngFor="let c of data.categorias" [(ngValue)]="c">{{c.descricao}}</option>
+                    </select>
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-sm-auto col-xs-auto col-md-auto">
+                <dl>
+                  <dt>Material</dt>
+                  <dd *ngIf="p._id !== data.idProdutoEdicao">
+                      {{p.material}}
+                  </dd>
+                  <dd *ngIf="p._id === data.idProdutoEdicao">
+                      <input type="text" name="material" class="form-control editing" placeholder="Material" #descricao="ngModel" [(ngModel)]="p.material">
+                  </dd>
+                </dl>
+              </div>
 
+              <div class="col-sm-auto col-xs-auto col-md-auto" *ngIf="p._id !== data.idProdutoEdicao">
+                <!-- Exibição -->
+                <dl>
+                  <dt class="text-center">Dimensões</dt>
+                  <dd class="border border-info rounded p-2 text-center" *ngIf="p.dimensoes || (p.dimensoes.largura || p.dimensoes.comprimento || p.dimensoes.altura)">
+                    <span *ngIf="p.dimensoes.largura">
+                      <i class="fa fa-arrows-h pr-1" aria-hidden="true"></i> {{p.dimensoes.largura / 100 | number:'1.2-2':'pt'}} L
+                    </span>
+                    <span *ngIf="p.dimensoes.comprimento">
+                      &nbsp;-&nbsp;<i class="fa fa-arrows-v pr-1" aria-hidden="true"></i>{{p.dimensoes.comprimento / 100 | number:'1.2-2':'pt'}} C
+                    </span>
+                    <span *ngIf="p.dimensoes.altura">
+                      &nbsp;-&nbsp;<i class="fa fa-long-arrow-up pr-1 fa-rotate-45" aria-hidden="true"></i>{{p.dimensoes.altura / 100 | number:'1.2-2':'pt'}} A
+                    </span>
+                  </dd>
+                  <dd *ngIf="!p.dimensoes || (!p.dimensoes.largura && !p.dimensoes.comprimento && !p.dimensoes.altura)">
+                    Não informado
+                  </dd>
+                </dl>
+              </div>
+
+              <div class="col-sm-auto col-xs-auto col-md-auto" *ngIf="p._id === data.idProdutoEdicao">
+                <!-- Edição -->
+                <dl>
+                  <dt class="text-center">Dimensões</dt>
+                  <dd class="border border-info rounded p-2 form-inline" >
+                    <div class="input-group p-1">
+                      <input type="number" size="4" name="largura" class="form-control input-sm editing" style="width: 80px;" placeholder="Largura" [(ngModel)]="p.dimensoes.largura">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text rounded-right">
+                          cm <i class="fa fa-arrows-h align-self-center px-2" aria-hidden="true"></i>L
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group p-1">
+                      <input type="number" size="4" name="comprimento" class="form-control input-sm editing" style="width: 80px;" placeholder="Comprimento" [(ngModel)]="p.dimensoes.comprimento">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text rounded-right">
+                          cm <i class="fa fa-arrows-v align-self-center px-2" aria-hidden="true"></i>C
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group p-1">
+                      <input type="number" size="4" name="altura" class="form-control input-sm editing" style="width: 80px;" placeholder="Altura" [(ngModel)]="p.dimensoes.altura">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text rounded-right">
+                          cm <i class="fa fa-long-arrow-up px-2 align-self-center fa-rotate-45" aria-hidden="true"></i>A
+                        </div>
+                      </div>
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 col-xs-12 col-md-12">
+                <button class="btn btn-outline-info float-left mr-1 mb-1" title="Editar" (click)="data.idProdutoEdicao = p._id" *ngIf="p._id !== data.idProdutoEdicao">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn btn-outline-info float-left mr-1 mb-1" title="Editar" (click)="atualizar(p)" *ngIf="p._id === data.idProdutoEdicao">
+                  <i class="fa fa-floppy-o"></i>
+                </button>
+                <button class="btn btn-outline-danger float-right mr-1 mb-1" title="Excluir" (click)="excluir(p)" *ngIf="p._id !== data.idProdutoEdicao">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
 
   </div>

@@ -49,11 +49,14 @@
         </div>
 
         <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
-          <div class="card border-primary text-primary">
-            <div class="card-header border-primary text-primary">
-              <h6><i class="fa fa-search mr-2" aria-hidden="true"></i>Pesquisa</h6>
+          <div class="card">
+            <div class="card-header p-1">
+              <h6 class="float-left w-25 m-2"><i class="fa fa-search pr-2" aria-hidden="true"></i>Pesquisa de Serviços</h6>
+              <button class="btn float-right" type="button" data-toggle="collapse" data-target="#pesquisaCollapse" aria-expanded="false" aria-controls="pesquisaCollapse">
+                <i class="fa fa-expand" aria-hidden="true"></i>
+              </button>
             </div>
-            <div class="card-body">
+            <div class="card-body collapse show" id="pesquisaCollapse">
               <form #pesquisaForm="ngForm">
                <div class="row">
                   <div class="col-sm-6 col-xs-6 col-md-6">
@@ -74,7 +77,7 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-12 col-xs-12 col-md-12 align-self-center">
-                    <button class="btn btn-primary" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
+                    <button class="btn btn-light" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
                   </div>
                 </div>
               </form>
@@ -92,10 +95,10 @@
                 <div *ngIf="s._id !== idServicoEdicao">
                   <div class="row">
                     <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
-                      <button class="btn btn-danger mr-1 mb-1" title="Excluir" (click)="excluir(s)">
+                      <button class="btn btn-outline-danger mr-1 mb-1" title="Excluir" (click)="excluir(s)">
                         <i class="fa fa-times"></i>
                       </button>
-                      <button class="btn btn-info mr-1 mb-1" title="Editar" (click)="idServicoEdicao = s._id">
+                      <button class="btn btn-outline-info mr-1 mb-1" title="Editar" (click)="idServicoEdicao = s._id">
                         <i class="fa fa-pencil"></i>
                       </button>
                     </div>
@@ -108,7 +111,7 @@
                     </div>
                     <div class="col-sm-5 col-xs-5 col-md-5 align-self-center">
                       <h5 class="float-none">
-                        <span class="badge badge-dark">
+                        <span class="badge badge-primary">
                           <i class="fa fa-folder-open-o pr-1"></i>{{s.categoria.descricao}}
                         </span>
                       </h5>

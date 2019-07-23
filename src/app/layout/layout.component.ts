@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { slideToBottom } from '../route-transitions';
+import { slideToBottom, slideToLeft } from '../route-transitions';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css'],
-  animations: [slideToBottom()]
+  animations: [slideToLeft()]
 })
 export class LayoutComponent implements OnInit {
 
