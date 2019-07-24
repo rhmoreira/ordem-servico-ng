@@ -8,6 +8,7 @@ import { share } from 'rxjs/operators';
 export class ServicoService {
 
   private servicoUri = `${env.appUrl}/Servico`;
+  private servicoPorCategoriaUri = `${env.appUrl}/Servico/Categoria`;
 
   constructor(private http: HttpClient) { }
 
@@ -25,5 +26,13 @@ export class ServicoService {
 
   public salvar(servico: Servico): Promise<any> {
     return this.http.post(this.servicoUri, servico).pipe(share()).toPromise();
+  }
+
+  public listarPorCategoria(idCategoria: string): Promise<Servico[]> {
+    if (idCategoria) {
+      return this.http.get<Servico[]>(`${this.servicoPorCategoriaUri}/${idCategoria}`).pipe(share()).toPromise();
+    } else {
+      return Promise.resolve([]);
+    }
   }
 }

@@ -6,12 +6,14 @@ import { Produto } from './produto';
 export class TabelaPreco extends Model {
 
   nome: string;
-  ativo: string;
+  ativo: boolean;
   servico: Servico;
 
-  itens: [{
-    precoProduto: number;
-    precoServico: number;
-    produto: Produto;
-  }];
+  itens: ItemTabelaPreco[];
+}
+
+export class ItemTabelaPreco {
+  precoProduto: number;
+  precoServico: number;
+  produto: Produto;
 }

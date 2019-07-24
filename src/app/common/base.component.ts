@@ -9,4 +9,8 @@ export abstract class BaseComponent {
     }
   }
 
+  public trackByFn(index: any, item: any) {
+    return index;
+  }
+
 }
