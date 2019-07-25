@@ -7,13 +7,12 @@ export class TabelaPreco extends Model {
 
   nome: string;
   ativo: boolean;
-  servico: Servico;
-
   itens: ItemTabelaPreco[];
 }
 
 export class ItemTabelaPreco {
   precoProduto: number;
   precoServico: number;
+  servico: Servico;
   produto: Produto;
 }

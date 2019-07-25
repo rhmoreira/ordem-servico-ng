@@ -50,8 +50,6 @@ export class TabelaPrecoComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    this.carregandoServicos = true;
-    this.tabelaPreco.servico = null;
     this.servicoService.listarPorCategoria(idCategoria)
         .then(servicos => {
           if (servicos.length === 0) {
@@ -88,6 +86,18 @@ export class TabelaPrecoComponent extends BaseComponent implements OnInit {
 
   public removerItem(index: number): void {
     this.tabelaPreco.itens.splice(index, 1);
+  }
+
+  public salvar(tabelaPreco: TabelaPreco): void {
+    this.tabelaPrecoService.salvar(tabelaPreco)
+        .then(result => {
+          this.toastrService.success('Tabela de preço salva!')
+          this.resetInclusaoEdicao();
+        });
+  }
+
+  private resetInclusaoEdicao(): void {
+    delete this.tabelaPreco;
   }
 
 }

@@ -17,14 +17,14 @@
             <div class="row">
               <div class="col-sm-6 col-xs-6 col-md-6">
                 <div class="form-group">
-                  <input type="text" name="descricao" class="form-control" placeholder="Descrição do Produto" [(ngModel)]="data.novoProduto.descricao">
+                  <input type="text" name="descricao" class="form-control form-control-sm" placeholder="Descrição do Produto" [(ngModel)]="data.novoProduto.descricao">
                 </div>
                 <div class="form-group">
-                  <input type="text" name="material" class="form-control" placeholder="Material" #descricao="ngModel" [(ngModel)]="data.novoProduto.material">
+                  <input type="text" name="material" class="form-control form-control-sm" placeholder="Material" #descricao="ngModel" [(ngModel)]="data.novoProduto.material">
                 </div>
                 <div class="form-group">
                   <label>Categoria</label>
-                  <select name="categoria" class="form-control" [(ngModel)]="data.novoProduto.categoria">
+                  <select name="categoria" class="form-control form-control-sm" [(ngModel)]="data.novoProduto.categoria">
                     <option *ngFor="let c of data.categorias" [(ngValue)]="c._id">{{c.descricao}}</option>
                   </select>
                 </div>
@@ -40,9 +40,9 @@
                       <div class="col-sm-4 col-xs-4 col-md-4">
                         <div class="form-group">
                           <div class="input-group">
-                            <input type="number" name="largura" class="form-control" placeholder="Largura" [(ngModel)]="data.novoProduto.dimensoes.largura">
+                            <input type="number" name="largura" class="form-control form-control-sm" placeholder="Largura" [(ngModel)]="data.novoProduto.dimensoes.largura">
                             <div class="input-group-prepend">
-                              <div class="input-group-text rounded-right">cm</div>
+                              <div class="input-group-text rounded-right py-0">cm</div>
                             </div>
                           </div>
                         </div>
@@ -50,9 +50,9 @@
                       <div class="col-sm-4 col-xs-4 col-md-4">
                         <div class="form-group">
                           <div class="input-group">
-                            <input type="number" name="comprimento" class="form-control" placeholder="Comprimento" [(ngModel)]="data.novoProduto.dimensoes.comprimento">
+                            <input type="number" name="comprimento" class="form-control form-control-sm" placeholder="Comprimento" [(ngModel)]="data.novoProduto.dimensoes.comprimento">
                             <div class="input-group-prepend">
-                              <div class="input-group-text rounded-right">cm</div>
+                              <div class="input-group-text rounded-right py-0">cm</div>
                             </div>
                           </div>
                         </div>
@@ -60,9 +60,9 @@
                       <div class="col-sm-4 col-xs-4 col-md-4">
                         <div class="form-group">
                           <div class="input-group">
-                            <input type="number" name="altura" class="form-control" placeholder="Altura" [(ngModel)]="data.novoProduto.dimensoes.altura">
+                            <input type="number" name="altura" class="form-control form-control-sm" placeholder="Altura" [(ngModel)]="data.novoProduto.dimensoes.altura">
                             <div class="input-group-prepend">
-                              <div class="input-group-text rounded-right">cm</div>
+                              <div class="input-group-text rounded-right py-0">cm</div>
                             </div>
                           </div>
 
@@ -103,13 +103,13 @@
                 <div class="col-sm-6 col-xs-6 col-md-6">
                   <div class="form-group">
                     <label class="control-label text-left">Serviço</label>
-                    <input type="text" name="descricao" class="form-control" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="data.filtroPesquisa.descricao">
+                    <input type="text" name="descricao" class="form-control form-control-sm" placeholder="Descrição do Serviço" #descricao="ngModel" [(ngModel)]="data.filtroPesquisa.descricao">
                   </div>
                 </div>
                 <div class="col-sm-6 col-xs-6 col-md-6">
                   <div class="form-group">
                     <label for="catPesquisa" class="control-label">Categoria</label>
-                    <select id="catPesquisa" name="categoria" class="form-control" #categoria="ngModel" [(ngModel)]="data.filtroPesquisa.idCategoria">
+                    <select id="catPesquisa" name="categoria" class="form-control form-control-sm" #categoria="ngModel" [(ngModel)]="data.filtroPesquisa.idCategoria">
                       <option [ngValue]="null">[Todas]</option>
                       <option *ngFor="let c of data.categorias" [ngValue]="c._id">{{c.descricao}}</option>
                     </select>
@@ -135,7 +135,7 @@
               <i class="fa fa-list mr-2" aria-hidden="true"></i>{{p.descricao}}
             </h6>
             <span *ngIf="p._id === data.idProdutoEdicao">
-              <input type="text" name="descricao" class="form-control editing" placeholder="Descrição do Produto" [(ngModel)]="p.descricao">
+              <input type="text" name="descricao" class="form-control form-control-sm editing" placeholder="Descrição do Produto" [(ngModel)]="p.descricao">
             </span>
           </div>
           <div class="card-body">
@@ -151,7 +151,7 @@
                     </h5>
                   </dd>
                   <dd *ngIf="p._id === data.idProdutoEdicao">
-                    <select name="categoria" class="form-control editing" [(ngModel)]="p.categoria" [compareWith]="compareEntities">
+                    <select name="categoria" class="form-control form-control-sm editing" [(ngModel)]="p.categoria" [compareWith]="compareEntities">
                       <option *ngFor="let c of data.categorias" [(ngValue)]="c">{{c.descricao}}</option>
                     </select>
                   </dd>
@@ -164,7 +164,7 @@
                       {{p.material}}
                   </dd>
                   <dd *ngIf="p._id === data.idProdutoEdicao">
-                      <input type="text" name="material" class="form-control editing" placeholder="Material" #descricao="ngModel" [(ngModel)]="p.material">
+                      <input type="text" name="material" class="form-control form-control-sm editing" placeholder="Material" #descricao="ngModel" [(ngModel)]="p.material">
                   </dd>
                 </dl>
               </div>
@@ -196,25 +196,25 @@
                   <dt class="text-center">Dimensões</dt>
                   <dd class="border border-info rounded p-2 form-inline" >
                     <div class="input-group p-1">
-                      <input type="number" size="4" name="largura" class="form-control input-sm editing" style="width: 80px;" placeholder="Largura" [(ngModel)]="p.dimensoes.largura">
+                      <input type="number" size="4" name="largura" class="form-control form-control-sm editing" style="width: 80px;" placeholder="Largura" [(ngModel)]="p.dimensoes.largura">
                       <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right">
+                        <div class="input-group-text rounded-right py-0">
                           cm <i class="fa fa-arrows-h align-self-center px-2" aria-hidden="true"></i>L
                         </div>
                       </div>
                     </div>
                     <div class="input-group p-1">
-                      <input type="number" size="4" name="comprimento" class="form-control input-sm editing" style="width: 80px;" placeholder="Comprimento" [(ngModel)]="p.dimensoes.comprimento">
+                      <input type="number" size="4" name="comprimento" class="form-control form-control-sm editing" style="width: 80px;" placeholder="Comprimento" [(ngModel)]="p.dimensoes.comprimento">
                       <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right">
+                        <div class="input-group-text rounded-right py-0">
                           cm <i class="fa fa-arrows-v align-self-center px-2" aria-hidden="true"></i>C
                         </div>
                       </div>
                     </div>
                     <div class="input-group p-1">
-                      <input type="number" size="4" name="altura" class="form-control input-sm editing" style="width: 80px;" placeholder="Altura" [(ngModel)]="p.dimensoes.altura">
+                      <input type="number" size="4" name="altura" class="form-control form-control-sm editing" style="width: 80px;" placeholder="Altura" [(ngModel)]="p.dimensoes.altura">
                       <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right">
+                        <div class="input-group-text rounded-right py-0">
                           cm <i class="fa fa-long-arrow-up px-2 align-self-center fa-rotate-45" aria-hidden="true"></i>A
                         </div>
                       </div>

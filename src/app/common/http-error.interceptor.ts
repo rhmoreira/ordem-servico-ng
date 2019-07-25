@@ -21,11 +21,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     if (error.status === 0 || error.error instanceof ErrorEvent) {
       errorMessage = 'Erro de comunicação com o servidor';
     } else {
-      errorMessage = error.error.erro;
+      errorMessage = error.error.cause;
       error = error.error;
     }
 
-    this.toastrService.error(errorMessage, 'Erro');
+    if (Array.isArray(errorMessage)) {
+      errorMessage.forEach(msg => this.toastrService.error(msg, 'Erro'));
+    } else {
+      this.toastrService.error(errorMessage, 'Erro');
+    }
     return throwError(error);
   }
 }

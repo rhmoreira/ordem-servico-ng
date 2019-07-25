@@ -24,27 +24,18 @@
 
             <div class="row">
 
-              <div class="col-sm-4 col-xs-4 col-md-4">
+              <div class="col-sm-6 col-xs-6 col-md-6">
                 <div class="form-group">
                   <label>Tabela</label>
-                  <input type="text" name="nome" class="form-control" placeholder="nome" [(ngModel)]="tabelaPreco.nome">
+                  <input type="text" name="nome" class="form-control form-control-sm" placeholder="nome" [(ngModel)]="tabelaPreco.nome">
                 </div>
               </div>
-              <div class="col-sm-4 col-xs-4 col-md-4">
+              <div class="col-sm-6 col-xs-6 col-md-6">
                 <div class="form-group">
                   <i class="fa fa-folder-open-o pr-1"></i><label>Categoria</label>
-                  <select name="categoria" class="form-control" (change)="pesquisarServicos($event.target.value); tabelaPreco.itens" #selectCategoria>
+                  <select name="categoria" class="form-control form-control-sm" (change)="pesquisarServicos($event.target.value); tabelaPreco.itens" #selectCategoria>
                     <option value >[Selecione...]</option>
                     <option *ngFor="let c of categorias" [value]="c._id">{{c.descricao}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-4 col-xs-4 col-md-4">
-                <div class="form-group" *ngIf="servicos">
-                  <i class="fa fa-wrench pr-1"></i><label>Serviço</label> <i *ngIf="carregandoServicos" class="fa fa-cog fa-spin"></i>
-                  <select name="servico" class="form-control" [(ngModel)]="tabelaPreco.servico">
-                    <option [ngValue]="null">[Selecione...]</option>
-                    <option *ngFor="let s of servicos" [(ngValue)]="s">{{s.descricao}}</option>
                   </select>
                 </div>
               </div>
@@ -55,41 +46,51 @@
                     <h6 class="float-left m-2"><i class="fa fa-list pr-1"></i>Produtos</h6>
                     <button *ngIf="produtos" class="float-right btn btn-outline-info" (click)="adicionarItem()"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> Adicionar Item </button>
                   </div>
-                  <div class="card-body" *ngIf="produtos">
+                  <div class="card-body" *ngIf="produtos && servicos">
                     <div *ngFor="let item of tabelaPreco.itens; let i = index" [@slideToLeft]>
                       <div class="row border border-info border-thick rounded mb-1">
                         <div class="col-sm-1 col-xs-1 col-md-1 align-self-center">
+                          <label class="font-weight-bold pt-2"></label>
                           <button class="btn btn-danger btn-sm float-right mt-2" (click)="removerItem(i)">
-                              <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                              #{{i+1}}&nbsp;<i class="fa fa-minus-circle" aria-hidden="true"></i>
                           </button>
                         </div>
-                        <div class="col-sm-4 col-xs-4 col-md-4">
+                        <div class="col-sm-3 col-xs-3 col-md-3">
                           <div class="form-group">
                             <label>Produto</label>
-                            <select name="produto_{{i}}" class="form-control" [(ngModel)]="item.produto" [compareWith]="compareEntities">
+                            <select name="produto_{{i}}" class="form-control form-control-sm" [(ngModel)]="item.produto" [compareWith]="compareEntities">
                               <option *ngFor="let p of produtos" [(ngValue)]="p">{{p.descricao}}</option>
                             </select>
                           </div>
                         </div>
                         <div class="col-sm-3 col-xs-3 col-md-3">
                           <div class="form-group">
+                            <i class="fa fa-wrench pr-1"></i><label>Serviço</label> <i *ngIf="carregandoServicos" class="fa fa-cog fa-spin"></i>
+                            <select name="servico" class="form-control form-control-sm" [(ngModel)]="item.servico">
+                              <option [ngValue]="null">[Selecione...]</option>
+                              <option *ngFor="let s of servicos" [(ngValue)]="s">{{s.descricao}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-auto col-xs-auto col-md-auto">
+                          <div class="form-group">
                             <label>Preço do Material</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
-                                <div class="input-group-text rounded-left">R$</div>
+                                <div class="input-group-text rounded-left py-0">R$</div>
                               </div>
-                              <input type="number" name="precoProduto_{{i}}" class="form-control" placeholder="Material" [(ngModel)]="item.precoProduto">
+                              <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Material" [(ngModel)]="item.precoProduto">
                             </div>
                           </div>
                         </div>
-                        <div class="col-sm-3 col-xs-3 col-md-3">
+                        <div class="col-sm-auto col-xs-auto col-md-auto">
                           <div class="form-group">
                             <label>Preço da Mão de Obra</label>
                             <div class="input-group">
                               <div class="input-group-prepend">
-                                <div class="input-group-text rounded-left">R$</div>
+                                <div class="input-group-text rounded-left py-0">R$</div>
                               </div>
-                              <input type="number" name="precoProduto_{{i}}" class="form-control" placeholder="Mão de obra" [(ngModel)]="item.precoServico">
+                              <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Mão de obra" [(ngModel)]="item.precoServico">
                             </div>
                           </div>
                         </div>
@@ -102,7 +103,7 @@
 
               <div class="col-sm-12 col-xs-12 col-md-12 pt-2">
                 <div class="form-group">
-                  <button class="btn btn-success mr-2">
+                  <button class="btn btn-success mr-2" (click)="salvar(tabelaPreco)">
                     <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar
                   </button>
                   <button type="button" class="btn btn-outline-secondary" (click)="tabelaPreco = null">

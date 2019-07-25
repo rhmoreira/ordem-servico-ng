@@ -9,7 +9,7 @@
 
       <form #novaCategoriaForm="ngForm" class="form-inline">
         <div class="input-group pb-2" *ngIf="novaCategoria">
-          <input type="text" class="form-control mr-2" [(ngModel)]="novaCategoria.descricao" name="descricao" placeholder="Descrição">
+          <input type="text" class="form-control form-control-sm mr-2" [(ngModel)]="novaCategoria.descricao" name="descricao" placeholder="Descrição">
           <span class="input-group-btn">
             <button class="btn btn-success mr-2" (click)="salvar(novaCategoria)">
               <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i>Salvar
@@ -46,7 +46,7 @@
                 </span>
                 <span class="align-middle pl-2" *ngIf="!substituir || idCategoriaExclusao !== cat._id">{{cat.descricao}}</span>
 
-                <select class="form-control form-control-md editing" name="idCategoriaSubstituta" [(ngModel)]="idCategoriaSubstituta" *ngIf="substituir && idCategoriaExclusao === cat._id" aria-placeholder="[Selecione...]">
+                <select class="form-control form-control-sm editing" name="idCategoriaSubstituta" [(ngModel)]="idCategoriaSubstituta" *ngIf="substituir && idCategoriaExclusao === cat._id" aria-placeholder="[Selecione...]">
                   <option *ngFor="let cSub of categorias" [disabled]="cSub._id === cat._id" [ngValue]="cSub._id">{{cSub.descricao}}</option>
                 </select>
               </div>
@@ -59,7 +59,7 @@
                 </button>
               </span>
 
-              <input name="descricao" [(ngModel)]="cat.descricao" class="form-control form-control-md editing" #descricao="ngModel" (keyup.enter)="salvar(cat)">
+              <input name="descricao" [(ngModel)]="cat.descricao" class="form-control form-control-sm editing" #descricao="ngModel" (keyup.enter)="salvar(cat)">
             </div>
           </li>
         </ul>
