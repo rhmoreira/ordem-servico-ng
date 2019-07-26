@@ -9,7 +9,7 @@
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </div>
-
+        <span #referenciaTelaTabelaPreco></span>
       </div>
     </div>
 
@@ -24,74 +24,77 @@
 
             <div class="row">
 
-              <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="col-sm-4 col-xs-4 col-md-4">
                 <div class="form-group">
                   <label>Tabela</label>
                   <input type="text" name="nome" class="form-control form-control-sm" placeholder="nome" [(ngModel)]="tabelaPreco.nome">
                 </div>
               </div>
-              <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="col-sm-4 col-xs-4 col-md-4">
                 <div class="form-group">
                   <i class="fa fa-folder-open-o pr-1"></i><label>Categoria</label>
-                  <select name="categoria" class="form-control form-control-sm" (change)="pesquisarServicos($event.target.value); tabelaPreco.itens" #selectCategoria>
+                  <select name="categoria" class="form-control form-control-sm" (change)="pesquisarServicosNovaTabela($event.target.value); tabelaPreco.itens" #selectCategoria>
                     <option value >[Selecione...]</option>
                     <option *ngFor="let c of categorias" [value]="c._id">{{c.descricao}}</option>
                   </select>
-                </div>
-              </div>
+								</div>
+							</div>
+							<div class="col-sm-4 col-xs-4 col-md-4">
+								<div class="form-group">
+									<i class="fa fa-wrench pr-1"></i><label>Serviço</label> <i *ngIf="carregandoServicos" class="fa fa-cog fa-spin"></i>
+									<select name="servico" class="form-control form-control-sm" [(ngModel)]="tabelaPreco.servico">
+										<option [ngValue]="null">[Selecione...]</option>
+										<option *ngFor="let s of servicos" [(ngValue)]="s">{{s.descricao}}</option>
+									</select>
+								</div>
+							</div>
 
               <div class="col-sm-12 col-xs-12 col-md-12" *ngIf="selectCategoria.value">
                 <div class="card">
                   <div class="card-header p-1">
-                    <h6 class="float-left m-2"><i class="fa fa-list pr-1"></i>Produtos</h6>
-                    <button *ngIf="produtos" class="float-right btn btn-outline-info" (click)="adicionarItem()"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> Adicionar Item </button>
+                    <div class="row">
+                      <div class="col-sm-auto col-xs-auto col-md-auto form-inline">
+                        <div class="form-group">
+                          <h6 class="pr-2"><i class="fa fa-list pr-1"></i>Produtos</h6>
+
+                          <div *ngIf="produtos && produtos.length > 0">
+                            <select name="produto" class="form-control form-control-sm pr-2" #produto>
+                              <option value>[Selecione...]</option>
+                              <option *ngFor="let p of produtos; let i = index" [value]="i">{{p.descricao}}</option>
+                            </select>
+
+                            <button *ngIf="produtos" class="btn btn-sm btn-outline-info ml-2" (click)="adicionarItem(produto.value)"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> Adicionar Item </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div class="card-body" *ngIf="produtos && servicos">
                     <div *ngFor="let item of tabelaPreco.itens; let i = index" [@slideToLeft]>
-                      <div class="row border border-info border-thick rounded mb-1">
-                        <div class="col-sm-1 col-xs-1 col-md-1 align-self-center">
-                          <label class="font-weight-bold pt-2"></label>
-                          <button class="btn btn-danger btn-sm float-right mt-2" (click)="removerItem(i)">
+                      <div class="row border-bottom border-thick rounded mb-1">
+
+                        <div class="col-sm-auto col-xs-auto col-md-auto">
+                          <button class="btn btn-danger btn-sm" (click)="removerItem(i)">
                               #{{i+1}}&nbsp;<i class="fa fa-minus-circle" aria-hidden="true"></i>
                           </button>
                         </div>
-                        <div class="col-sm-3 col-xs-3 col-md-3">
-                          <div class="form-group">
-                            <label>Produto</label>
-                            <select name="produto_{{i}}" class="form-control form-control-sm" [(ngModel)]="item.produto" [compareWith]="compareEntities">
-                              <option *ngFor="let p of produtos" [(ngValue)]="p">{{p.descricao}}</option>
-                            </select>
-                          </div>
+                        <div class="col-sm-4 col-xs-4 col-md-4">
+                          <h4><div class="badge badge-info w-100"><i class="fa fa-list pr-1"> {{item.produto.descricao}} </i></div></h4>
                         </div>
-                        <div class="col-sm-3 col-xs-3 col-md-3">
-                          <div class="form-group">
-                            <i class="fa fa-wrench pr-1"></i><label>Serviço</label> <i *ngIf="carregandoServicos" class="fa fa-cog fa-spin"></i>
-                            <select name="servico" class="form-control form-control-sm" [(ngModel)]="item.servico">
-                              <option [ngValue]="null">[Selecione...]</option>
-                              <option *ngFor="let s of servicos" [(ngValue)]="s">{{s.descricao}}</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-auto col-xs-auto col-md-auto">
-                          <div class="form-group">
-                            <label>Preço do Material</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text rounded-left py-0">R$</div>
-                              </div>
-                              <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Material" [(ngModel)]="item.precoProduto">
+                        <div class="col-sm-auto col-xs-auto col-md-auto pb-1">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text rounded-left py-0">R$</div>
                             </div>
+                            <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Preço Material" [(ngModel)]="item.precoProduto">
                           </div>
                         </div>
-                        <div class="col-sm-auto col-xs-auto col-md-auto">
-                          <div class="form-group">
-                            <label>Preço da Mão de Obra</label>
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <div class="input-group-text rounded-left py-0">R$</div>
-                              </div>
-                              <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Mão de obra" [(ngModel)]="item.precoServico">
+                        <div class="col-sm-auto col-xs-auto col-md-auto pb-1">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text rounded-left py-0">R$</div>
                             </div>
+                            <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Preço Mão de obra" [(ngModel)]="item.precoServico">
                           </div>
                         </div>
 
@@ -116,6 +119,66 @@
           </form>
         </div>
       </div>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
+      <div class="card">
+        <div class="card-header p-1">
+          <h6 class="float-left w-25 m-2"><i class="fa fa-search pr-2" aria-hidden="true"></i>Pesquisa de Tabelas de Preço</h6>
+          <button class="btn float-right" type="button" data-toggle="collapse" data-target="#pesquisaCollapse" aria-expanded="false" aria-controls="pesquisaCollapse">
+            <i class="fa fa-expand" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="card-body collapse" id="pesquisaCollapse">
+          <form #pesquisaForm="ngForm">
+            <div class="row">
+              <div class="col-sm-6 col-xs-6 col-md-6">
+                <div class="form-group">
+                  <label class="control-label"> <i class="fa fa-folder-open-o pr-1"></i> Categoria</label>
+                  <select name="categoria" class="form-control form-control-sm" #categoria="ngModel" [(ngModel)]="filtroPesquisa.idCategoria" (change)="pesquisarServicosBusca()">
+                    <option [ngValue]="null">[Todas]</option>
+                    <option *ngFor="let c of categoriasPesquisa" [ngValue]="c._id">{{c.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xs-6 col-md-6">
+                <div class="form-group">
+                  <label class="control-label text-left"> <i class="fa fa-wrench pr-1"></i> Serviço</label>
+                  <select name="servico" class="form-control form-control-sm" #servico="ngModel" [(ngModel)]="filtroPesquisa.idServico">
+                    <option [ngValue]="null">[Todos]</option>
+                    <option *ngFor="let s of servicosPesquisa" [ngValue]="s._id">{{s.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xs-6 col-md-6">
+                <div class="form-group">
+                  <label class="control-label text-left"> <i class="fa fa-list pr-1"></i> Produto</label>
+                  <select name="produto" class="form-control form-control-sm" #produto="ngModel" [(ngModel)]="filtroPesquisa.idProduto">
+                    <option [ngValue]="null">[Todos]</option>
+                    <option *ngFor="let p of produtosPesquisa" [ngValue]="p._id">{{p.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-xs-12 col-md-12 align-self-center">
+                <button class="btn btn-light" (click)="pesquisar()"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="tabelasPreco" [@slideToTop]>
+      <div class="card mb-2 {{!tp.ativo ? 'text-secondary' : ''}}" *ngFor="let tp of tabelasPreco">
+        <div class="card-header">
+          <h6>
+            <i class="fa fa-usd mr-2" aria-hidden="true"></i>{{tp.nome}}
+          </h6>
+        </div>
+        <div class="card-body">
+        </div>
     </div>
 
   </div>

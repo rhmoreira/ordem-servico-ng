@@ -8,11 +8,11 @@ export class TabelaPreco extends Model {
   nome: string;
   ativo: boolean;
   itens: ItemTabelaPreco[];
+  servico: Servico;
 }
 
 export class ItemTabelaPreco {
   precoProduto: number;
   precoServico: number;
-  servico: Servico;
   produto: Produto;
 }
