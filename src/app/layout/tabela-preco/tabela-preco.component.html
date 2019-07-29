@@ -132,7 +132,13 @@
         <div class="card-body collapse" id="pesquisaCollapse">
           <form #pesquisaForm="ngForm">
             <div class="row">
-              <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="col-sm-4 col-xs-4 col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Nome</label>
+                  <input type="text" name="nome" class="form-control form-control-sm" [(ngModel)]="filtroPesquisa.nome">
+                </div>
+              </div>
+              <div class="col-sm-4 col-xs-4 col-md-4">
                 <div class="form-group">
                   <label class="control-label"> <i class="fa fa-folder-open-o pr-1"></i> Categoria</label>
                   <select name="categoria" class="form-control form-control-sm" #categoria="ngModel" [(ngModel)]="filtroPesquisa.idCategoria" (change)="pesquisarServicosBusca()">
@@ -141,7 +147,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="col-sm-4 col-xs-4 col-md-4">
                 <div class="form-group">
                   <label class="control-label text-left"> <i class="fa fa-wrench pr-1"></i> Serviço</label>
                   <select name="servico" class="form-control form-control-sm" #servico="ngModel" [(ngModel)]="filtroPesquisa.idServico">
@@ -150,13 +156,26 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="col-sm-4 col-xs-4 col-md-4">
                 <div class="form-group">
                   <label class="control-label text-left"> <i class="fa fa-list pr-1"></i> Produto</label>
                   <select name="produto" class="form-control form-control-sm" #produto="ngModel" [(ngModel)]="filtroPesquisa.idProduto">
                     <option [ngValue]="null">[Todos]</option>
                     <option *ngFor="let p of produtosPesquisa" [ngValue]="p._id">{{p.descricao}}</option>
                   </select>
+                </div>
+              </div>
+              <div class="col-sm-4 col-xs-4 col-md-4 align-self-center">
+                <div class="btn-group btn-group-toggle">
+                  <label class="btn btn{{filtroPesquisa.ativo === 'true' ? '-' : '-outline-'}}success">
+                    <input type="radio" name="ativo" id="pesquisaAtivoTrue" value="true" [(ngModel)]="filtroPesquisa.ativo"> Ativo
+                  </label>
+                  <label class="btn btn{{filtroPesquisa.ativo === 'false' ? '-' : '-outline-'}}danger">
+                    <input type="radio" name="ativo" id="pesquisaAtivoFalse" value="false" [(ngModel)]="filtroPesquisa.ativo"> Inativo
+                  </label>
+                  <label class="btn btn{{filtroPesquisa.ativo === null ? '-' : '-outline-'}}primary">
+                    <input type="radio" name="ativo" id="pesquisaAtivoFalse" [value]=null [(ngModel)]="filtroPesquisa.ativo"> Ambos
+                  </label>
                 </div>
               </div>
             </div>

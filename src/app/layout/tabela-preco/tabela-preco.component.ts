@@ -151,7 +151,7 @@ export class TabelaPrecoComponent extends BaseComponent implements OnInit {
           this.filtroPesquisa.ativo)
         .then(tabelas => {
           this.tabelasPreco = tabelas;
-          if (!tabelas || tabelas.length == 0) {
+          if (!tabelas || tabelas.length === 0) {
             this.toastrService.warning('Nenhumna tabela de preço encontrada');
           }
         });
