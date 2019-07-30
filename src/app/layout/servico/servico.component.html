@@ -10,7 +10,7 @@
           </button>
         </div>
 
-        <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="novoServico" [@slideToRight]>
+        <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="novoServico" [@slideToLeft]>
           <div class="card border-success text-success">
             <div class="card-header border-success">
               <h6><i class="fa fa-wrench pr-1"></i>Novo servico</h6>
@@ -85,13 +85,13 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-xs-12 col-md-12 pb-2 pb-2" *ngIf="servicos">
+        <div class="col-sm-12 col-xs-12 col-md-12 pb-2 pb-2" *ngIf="servicos" [@slideToTop]>
           <div>
             <div class="list-group">
               <div class="list-group-item list-group-item-primary font-weight-bold" >
                 <i class="fa fa-wrench pr-1"></i>Serviços
               </div>
-              <div class="list-group-item" *ngFor="let s of servicos" [@pagination]="'navLeft'">
+              <div class="list-group-item" *ngFor="let s of servicos" >
                 <div *ngIf="s._id !== idServicoEdicao">
                   <div class="row">
                     <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">

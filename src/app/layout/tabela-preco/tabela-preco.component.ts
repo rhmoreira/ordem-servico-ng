@@ -7,9 +7,10 @@ import { BaseComponent } from 'src/app/common/base.component';
 import { ToastrService } from 'ngx-toastr';
 import { TabelaPrecoService } from './tabela-preco.service';
 import { CategoriaService } from './../categoria/categoria.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Servico } from 'src/app/common/types/servico';
 import { slideToRight, slideToLeft, slideToTop } from 'src/app/route-transitions';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-tabela-preco',
@@ -19,7 +20,8 @@ import { slideToRight, slideToLeft, slideToTop } from 'src/app/route-transitions
 })
 export class TabelaPrecoComponent extends BaseComponent implements OnInit {
 
-  @ViewChild('referenciaTelaTabelaPreco', {static: true}) spanRefTabelaPreco: HTMLElement;
+  @ViewChild('referenciaTelaTabelaPreco', {static: true}) spanRefTabelaPreco: ElementRef;
+  @ViewChild('selectCategoria', {static: false}) selectCategoriaTabelaPreco: ElementRef;
 
   categorias: Categoria[];
   servicos: Servico[];
@@ -142,6 +144,7 @@ export class TabelaPrecoComponent extends BaseComponent implements OnInit {
   }
 
   public pesquisar(): void {
+    delete this.tabelasPreco;
     this.tabelaPrecoService
         .pesquisar(
           this.filtroPesquisa.nome,
@@ -155,6 +158,25 @@ export class TabelaPrecoComponent extends BaseComponent implements OnInit {
             this.toastrService.warning('Nenhumna tabela de preço encontrada');
           }
         });
+  }
+
+  public editarTabela(tabelaPreco: TabelaPreco): void {
+    this.tabelaPreco = tabelaPreco;
+    this.spanRefTabelaPreco.nativeElement.scrollIntoView({behavior: 'smooth'});
+    setTimeout(() => {
+      this.pesquisarServicos(tabelaPreco.servico.categoria._id,
+        (servicos) => this.servicos = servicos,
+        (produtos) => {
+          this.produtos = produtos;
+          tabelaPreco.itens.forEach(item => {
+            this.produtos = this.produtos.filter(p => {
+              console.log(p._id === item.produto._id);
+              return p._id !== item.produto._id;
+            });
+          });
+        });
+      this.selectCategoriaTabelaPreco.nativeElement.value = tabelaPreco.servico.categoria._id;
+    }, 100);
   }
 
 }

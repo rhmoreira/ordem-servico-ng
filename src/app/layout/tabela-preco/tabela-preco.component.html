@@ -42,7 +42,7 @@
 							<div class="col-sm-4 col-xs-4 col-md-4">
 								<div class="form-group">
 									<i class="fa fa-wrench pr-1"></i><label>Serviço</label> <i *ngIf="carregandoServicos" class="fa fa-cog fa-spin"></i>
-									<select name="servico" class="form-control form-control-sm" [(ngModel)]="tabelaPreco.servico">
+									<select name="servico" class="form-control form-control-sm" [(ngModel)]="tabelaPreco.servico" [compareWith]="compareEntities">
 										<option [ngValue]="null">[Selecione...]</option>
 										<option *ngFor="let s of servicos" [(ngValue)]="s">{{s.descricao}}</option>
 									</select>
@@ -84,17 +84,17 @@
                         <div class="col-sm-auto col-xs-auto col-md-auto pb-1">
                           <div class="input-group">
                             <div class="input-group-prepend">
-                              <div class="input-group-text rounded-left py-0">R$</div>
+                              <div class="input-group-text rounded-left py-0">Material R$</div>
                             </div>
-                            <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Preço Material" [(ngModel)]="item.precoProduto">
+                            <input type="text" currencyMask  name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Preço Material" [(ngModel)]="item.precoProduto">
                           </div>
                         </div>
                         <div class="col-sm-auto col-xs-auto col-md-auto pb-1">
                           <div class="input-group">
                             <div class="input-group-prepend">
-                              <div class="input-group-text rounded-left py-0">R$</div>
+                              <div class="input-group-text rounded-left py-0">Mão de Obra R$</div>
                             </div>
-                            <input type="number" name="precoProduto_{{i}}" class="form-control form-control-sm" placeholder="Preço Mão de obra" [(ngModel)]="item.precoServico">
+                            <input type="text" currencyMask  name="precoServico_{{i}}" class="form-control form-control-sm" placeholder="Preço Mão de obra" [(ngModel)]="item.precoServico">
                           </div>
                         </div>
 
@@ -124,7 +124,7 @@
     <div class="col-sm-12 col-xs-12 col-md-12 pb-2">
       <div class="card">
         <div class="card-header p-1">
-          <h6 class="float-left w-25 m-2"><i class="fa fa-search pr-2" aria-hidden="true"></i>Pesquisa de Tabelas de Preço</h6>
+          <h6 class="float-left m-2"><i class="fa fa-search pr-2" aria-hidden="true"></i>Pesquisa de Tabelas de Preço</h6>
           <button class="btn float-right" type="button" data-toggle="collapse" data-target="#pesquisaCollapse" aria-expanded="false" aria-controls="pesquisaCollapse">
             <i class="fa fa-expand" aria-hidden="true"></i>
           </button>
@@ -189,16 +189,72 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="tabelasPreco" [@slideToTop]>
-      <div class="card mb-2 {{!tp.ativo ? 'text-secondary' : ''}}" *ngFor="let tp of tabelasPreco">
-        <div class="card-header">
+    <div class="col-sm-12 col-xs-12 col-md-12 pb-2" *ngIf="tabelasPreco" [@slideToLeft]>
+      <div class="card mb-2" *ngFor="let tp of tabelasPreco">
+        <div class="card-header tabelapreco-bg-primary {{tp.ativo ? 'text-success' : 'text-danger'}}">
           <h6>
             <i class="fa fa-usd mr-2" aria-hidden="true"></i>{{tp.nome}}
           </h6>
+          <h5>
+            <span class="badge badge-secondary">
+              <i class="fa fa-folder-open-o pr-1"></i>{{tp.servico.categoria.descricao}}
+            </span>
+            <span class="ml-1 badge badge-primary">
+              <i class="fa fa-wrench pr-1"></i>{{tp.servico.descricao}}
+            </span>
+          </h5>
+          <h5 class="text-dark" *ngIf="tabelaPreco && tp._id === tabelaPreco._id">
+            <i class="fa fa-cog fa-spin"></i> Editando...
+          </h5>
         </div>
-        <div class="card-body">
+        <div class="card-body {{tabelaPreco && tp._id === tabelaPreco._id ? 'd-none' : ''}}">
+					<div class="row">
+            <div class="col-sm-auto col-xs-auto col-md-auto">
+              <button class="btn btn-outline-info float-left mr-1 mb-1" title="Editar" (click)="editarTabela(tp)">
+                <i class="fa fa-pencil"></i>
+              </button>
+            </div>
+            <div class="col-sm-auto col-xs-auto col-md-auto align-self-end">
+              <h5>
+                <button class="btn btn-outline-secondary" data-toggle="collapse" [attr.data-target]="'#itens_tp_' + tp._id" aria-expanded="false" [attr.aria-controls]="'itens_tp_' + tp._id">
+                  <i class="fa fa-list pr-1"></i> Itens
+                  <span class="badge badge-secondary">
+                    {{tp.itens.length}}
+                  </span>
+                </button>
+              </h5>
+            </div>
+            <div class="col-sm-12 col-xs-12 col-md-12 align-self-center">
+              <div class="collapse border border-secondary rounded text-dark" id="itens_tp_{{tp._id}}">
+                <div class="row pl-2" *ngFor="let item of tp.itens">
+                  <div class="col-sm-6 col-xs-6 col-md-6 align-self-center">
+                    <h5>
+                      <div class="badge w-100 badge-secondary">
+                        <i class="fa fa-list pr-1"></i>{{item.produto.descricao}}
+                      </div>
+                    </h5>
+                  </div>
+                  <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
+                    <dl>
+                      <dt>Material</dt>
+                      <dd class="font-weight-bold text-success">
+                          R$ {{item.precoProduto | number:'1.2-2':'pt'}}
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="col-sm-auto col-xs-auto col-md-auto align-self-center">
+                    <dl>
+                      <dt>Mão de Obra</dt>
+                      <dd class="font-weight-bold text-success">
+                          R$ {{item.precoServico | number:'1.2-2':'pt'}}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+					</div>
         </div>
     </div>
-
   </div>
 </div>

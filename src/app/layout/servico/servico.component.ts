@@ -4,14 +4,14 @@ import { ServicoService } from './servico.service';
 import { Servico } from './../../common/types/servico';
 import { Categoria } from 'src/app/common/types/categoria';
 import { Component, OnInit } from '@angular/core';
-import { slideToBottom, slideToRight, pagination } from 'src/app/route-transitions';
+import { slideToRight, slideToTop, slideToLeft } from 'src/app/route-transitions';
 import { BaseComponent } from 'src/app/common/base.component';
 
 @Component({
   selector: 'app-servico',
   templateUrl: './servico.component.html',
   styleUrls: ['./servico.component.css'],
-  animations: [slideToBottom(), pagination(), slideToRight()]
+  animations: [slideToRight(), slideToTop(), slideToLeft()]
 })
 export class ServicoComponent extends BaseComponent implements OnInit {
 
